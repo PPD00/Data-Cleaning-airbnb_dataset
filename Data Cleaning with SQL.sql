@@ -30,7 +30,10 @@ WHERE table_name = 'details'
 
 select * from details
 select COUNT(*) from details
--- Removing Duplicates
+
+
+
+-- 1. Removing Duplicates
 
 SELECT listing_id, COUNT(*) -- finding duplicates
 FROM details
@@ -47,7 +50,7 @@ AND a.s_no <> b.s_no
 WITH duplicates AS (
 SELECT 
  ctid, -- This is a unique row in PostgreSQL(systemcolumn)
-ROW_NUMBER() OVER (PARTITION BY listing_id, host_id ORDER BY listing_id) as rn
+ROW_NUMBER() OVER(PARTITION BY listing_id, host_id ORDER BY listing_id) AS rn
 FROM details
 )
 
@@ -58,7 +61,7 @@ WHERE rn > 1
 ) 
 
 
--- Handling Missing Values
+-- 2.  Handling Missing Values
 
 -- 1st
 
@@ -95,7 +98,10 @@ OR host_name IS null
 
 
 
--- Removing Specific Columns
+-- 3.  Removing Specific Columns
 
-ALTER TABLE your_table
+ALTER TABLE details
 DROP COLUMN neighbourhood_full;
+
+
+SELECT * FROM details
